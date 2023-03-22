@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,4 +22,7 @@ public class StudentDetail {
     private String morther_name;
     private int farther_number;
     private int morther_number;
+
+    @ManyToMany
+    private List<Certificate> certificates;
 }
