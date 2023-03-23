@@ -23,6 +23,9 @@ public class StudentDetail {
     private int farther_number;
     private int morther_number;
 
+    @OneToOne(mappedBy = "studentDetail")
+    private Student student;
+
     @ManyToMany
     private List<Certificate> certificates;
 }
