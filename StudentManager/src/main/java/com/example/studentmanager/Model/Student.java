@@ -15,7 +15,7 @@ import lombok.ToString;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     private String address;
     private int age;
     private String name;

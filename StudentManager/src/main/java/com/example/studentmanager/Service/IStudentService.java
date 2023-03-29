@@ -1,5 +1,6 @@
 package com.example.studentmanager.Service;
 
+import com.example.studentmanager.Model.DTO.RequestDTO.StudentDetailRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentRequestDTO;
 import com.example.studentmanager.Model.ResponseObject;
 import com.example.studentmanager.Model.Student;
@@ -10,4 +11,6 @@ public interface IStudentService {
   ResponseObject addStudent(StudentRequestDTO studentRequestDTO);
   ResponseObject updateStudent(int id, StudentRequestDTO studentRequestDTO);
   ResponseObject deleteStudent(int id);
+  ResponseObject findStudent(int student_id);
+  ResponseObject addDetail(StudentDetailRequestDTO studentDetailRequestDTO);
 }

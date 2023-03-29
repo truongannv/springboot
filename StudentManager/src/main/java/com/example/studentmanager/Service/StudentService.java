@@ -1,9 +1,12 @@
 package com.example.studentmanager.Service;
 
+import com.example.studentmanager.Model.DTO.RequestDTO.StudentDetailRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentRequestDTO;
 import com.example.studentmanager.Model.DTO.ResponseDTO.StudentResponseDTO;
 import com.example.studentmanager.Model.ResponseObject;
 import com.example.studentmanager.Model.Student;
+import com.example.studentmanager.Model.StudentDetail;
+import com.example.studentmanager.Repository.StudentDetailRepository;
 import com.example.studentmanager.Repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ import java.util.List;
 
 @Service
 public class StudentService implements IStudentService {
+
+  @Autowired
+  private StudentDetailRepository studentDetailRepository;
 
   @Autowired
   private StudentRepository studentRepository;
@@ -71,5 +77,22 @@ public class StudentService implements IStudentService {
       studentRepository.deleteById(id);
       return new ResponseObject(200,"Xóa thành công",student);
     }
+  }
+
+  @Override
+  public ResponseObject findStudent(int student_id){
+    StudentDetail studentDetail = studentDetailRepository.findById(student_id).orElse(null);
+    if(studentDetail == null){
+      return new ResponseObject(400,"sinh viên chưa có thông tin",null);
+    }else{
+      return new ResponseObject(200,"Thành công",studentDetail);
+    }
+  }
+
+  @Override
+  public ResponseObject addDetail(StudentDetailRequestDTO studentDetailRequestDTO){
+    StudentDetail studentDetail = mapper.map(studentDetailRequestDTO,StudentDetail.class);
+    studentDetailRepository.save(studentDetail);
+    return new ResponseObject(200,"Thêm thành công",studentDetailRequestDTO);
   }
 }

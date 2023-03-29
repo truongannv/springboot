@@ -15,8 +15,8 @@ import java.util.List;
 public class StudentDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long student_id;
+    private int id;
+    private int student_id;
     private int phone_number;
     private String farther_name;
     private String morther_name;
