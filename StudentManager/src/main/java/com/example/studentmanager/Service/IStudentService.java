@@ -4,6 +4,7 @@ import com.example.studentmanager.Model.DTO.RequestDTO.StudentDetailRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentRequestDTO;
 import com.example.studentmanager.Model.ResponseObject;
 import com.example.studentmanager.Model.Student;
+import com.example.studentmanager.Model.StudentDetail;
 import org.springframework.http.ResponseEntity;
 
 public interface IStudentService {
@@ -13,4 +14,6 @@ public interface IStudentService {
   ResponseObject deleteStudent(int id);
   ResponseObject findStudent(int student_id);
   ResponseObject addDetail(StudentDetailRequestDTO studentDetailRequestDTO);
+  ResponseObject updateDetail(int student_id, StudentDetailRequestDTO studentDetailRequestDTO);
+  ResponseObject deleteDetail(int student_id);
 }

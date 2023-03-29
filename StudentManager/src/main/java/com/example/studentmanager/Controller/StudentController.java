@@ -7,6 +7,7 @@ import com.example.studentmanager.Repository.StudentDetailRepository;
 import com.example.studentmanager.Repository.StudentRepository;
 import com.example.studentmanager.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +16,6 @@ public class StudentController {
 
   @Autowired
   private StudentService studentService;
-  @Autowired
-  private StudentDetailRepository studentDetailRepository;
-  @Autowired
-  private StudentRepository studentRepository;
 
   @GetMapping("/list-all")
   public ResponseObject listAllStudent(){
@@ -40,11 +37,21 @@ public class StudentController {
     return studentService.deleteStudent(id);
   }
 
-  @PutMapping("/add-detail")
-  public ResponseObject addDetail(StudentDetailRequestDTO studentDetailRequestDTO){
+  @PutMapping("/list-all/find-student/add-detail")
+  public ResponseObject addDetail(@RequestBody StudentDetailRequestDTO studentDetailRequestDTO){
     return studentService.addDetail(studentDetailRequestDTO);
   }
 
   @RequestMapping("/list-all/find-student")
   public ResponseObject findStudent(int id){ return studentService.findStudent(id); }
+
+  @PutMapping("/list-all/find-student/update-detail")
+  public ResponseObject updateDetail(@RequestParam int student_id, @RequestBody StudentDetailRequestDTO studentDetailRequestDTO){
+    return studentService.updateDetail(student_id,studentDetailRequestDTO);
+  }
+
+  @DeleteMapping("list-all/find-student/delete-detail")
+  public ResponseObject deleteDetail(@RequestParam int student_id){
+    return studentService.deleteDetail(student_id);
+  }
 }

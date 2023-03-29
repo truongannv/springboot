@@ -59,11 +59,11 @@ public class StudentService implements IStudentService {
     if(student1 == null){
       return new ResponseObject(500,"không tìm thấy sinh viên cần sửa",null);
     }else{
-      student.setId(student.getId());
-      student.setAge(student.getAge());
-      student.setAddress(student.getAddress());
-      student.setName(student.getName());
-      student.setDocID(student.getDocID());
+      student1.setId(student.getId());
+      student1.setAge(student.getAge());
+      student1.setAddress(student.getAddress());
+      student1.setName(student.getName());
+      student1.setDocID(student.getDocID());
       return new ResponseObject(200,"Cập nhật thành công",studentRequestDTO);
     }
   }
@@ -94,5 +94,34 @@ public class StudentService implements IStudentService {
     StudentDetail studentDetail = mapper.map(studentDetailRequestDTO,StudentDetail.class);
     studentDetailRepository.save(studentDetail);
     return new ResponseObject(200,"Thêm thành công",studentDetailRequestDTO);
+  }
+
+  @Override
+  public ResponseObject updateDetail(int student_id, StudentDetailRequestDTO studentDetailRequestDTO) {
+    StudentDetail studentDetail = mapper.map(studentDetailRequestDTO,StudentDetail.class);
+    StudentDetail studentDetail1 = studentDetailRepository.findById(student_id).orElse(null);
+    if(studentDetail1==null){
+      return new ResponseObject(400,"Không tìm thấy thông tin",null);
+    }else{
+      studentDetail1.setId(studentDetail.getId());
+      studentDetail1.setStudent_id(studentDetail.getStudent_id());
+      studentDetail1.setPhone_number(studentDetail.getPhone_number());
+      studentDetail1.setFarther_name(studentDetail.getFarther_name());
+      studentDetail1.setFarther_number(studentDetail.getFarther_number());
+      studentDetail1.setMorther_name(studentDetail.getMorther_name());
+      studentDetail1.setMorther_number(studentDetail.getMorther_number());
+      return new ResponseObject(200,"Cập nhật thành công",studentDetailRequestDTO);
+    }
+  }
+
+  @Override
+  public ResponseObject deleteDetail(int student_id) {
+    StudentDetail studentDetail = studentDetailRepository.findStudentDetailByStudentID(student_id);
+    if(studentDetail==null){
+      return new ResponseObject(400,"Không tìm thấy thông tin",null);
+    }else{
+      studentDetailRepository.delete(studentDetail);
+      return new ResponseObject(200,"Xóa thành công",studentDetail);
+    }
   }
 }
