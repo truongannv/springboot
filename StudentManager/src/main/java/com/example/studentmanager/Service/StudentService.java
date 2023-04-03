@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,15 @@ public class StudentService implements IStudentService {
 
   @Autowired
   private ModelMapper mapper;
+
+  public int[] getStudentID(){
+    List<StudentDetail> studentDetails = studentDetailRepository.findAll();
+    int[] studentIDs = new int[studentDetails.size()];
+    for (int i = 0; i < studentDetails.size(); i++) {
+      studentIDs[i] = studentDetails.get(i).getStudent_id();
+    }
+    return studentIDs;
+  };
 
   @Override
   public ResponseObject listAllStudent() {
@@ -91,9 +103,15 @@ public class StudentService implements IStudentService {
 
   @Override
   public ResponseObject addDetail(StudentDetailRequestDTO studentDetailRequestDTO){
+    int[] studentIDs = getStudentID();
     StudentDetail studentDetail = mapper.map(studentDetailRequestDTO,StudentDetail.class);
-    studentDetailRepository.save(studentDetail);
-    return new ResponseObject(200,"Thêm thành công",studentDetailRequestDTO);
+    boolean check = Arrays.stream(studentIDs).anyMatch(studentID -> studentID==studentDetailRequestDTO.getStudent_id());
+    if(check == false){
+      studentDetailRepository.save(studentDetail);
+      return new ResponseObject(200,"Thêm thành công",studentDetailRequestDTO);
+    }else{
+      return new ResponseObject(400,"Sinh viên đã tồn tại",null);
+    }
   }
 
   @Override
