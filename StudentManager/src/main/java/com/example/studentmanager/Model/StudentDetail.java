@@ -18,12 +18,13 @@ public class StudentDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private int student_id;
-    private int phone_number;
+    private String phone_number;
     private String farther_name;
     private String morther_name;
-    private int farther_number;
-    private int morther_number;
+    private String farther_number;
+    private String morther_number;
 
     @OneToOne(mappedBy = "studentDetail")
     private Student student;
