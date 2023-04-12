@@ -1,5 +1,6 @@
 package com.example.studentmanager.Service;
 
+import com.example.studentmanager.Model.DTO.RequestDTO.CertificateRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentDetailRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentRequestDTO;
 import com.example.studentmanager.Model.ResponseObject;
@@ -16,4 +17,8 @@ public interface IStudentService {
   ResponseObject addDetail(StudentDetailRequestDTO studentDetailRequestDTO);
   ResponseObject updateDetail(int student_id, StudentDetailRequestDTO studentDetailRequestDTO);
   ResponseObject deleteDetail(int student_id);
+  ResponseObject addCertificate(CertificateRequestDTO certificateRequestDTO);
+  ResponseObject listAllCertificate();
+  ResponseObject updateCertificate(int id, CertificateRequestDTO certificateRequestDTO);
+  ResponseObject deleteCertificate(int id);
 }

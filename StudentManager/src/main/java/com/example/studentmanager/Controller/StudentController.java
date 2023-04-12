@@ -1,5 +1,6 @@
 package com.example.studentmanager.Controller;
 
+import com.example.studentmanager.Model.DTO.RequestDTO.CertificateRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentDetailRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentRequestDTO;
 import com.example.studentmanager.Model.ResponseObject;
@@ -53,5 +54,25 @@ public class StudentController {
   @DeleteMapping("list-all/find-student/delete-detail")
   public ResponseObject deleteDetail(@RequestParam int student_id){
     return studentService.deleteDetail(student_id);
+  }
+
+  @PutMapping("/certificate")
+  public ResponseObject addCertificate(@RequestBody CertificateRequestDTO certificateRequestDTO){
+    return studentService.addCertificate(certificateRequestDTO);
+  }
+
+  @GetMapping("/list-all-certificate")
+  public ResponseObject listAllCertificate(){
+    return studentService.listAllCertificate();
+  }
+
+  @PutMapping("/update-certificate")
+  public ResponseObject updateCertificate(@RequestParam int id, @RequestBody CertificateRequestDTO certificateRequestDTO){
+    return studentService.updateCertificate(id,certificateRequestDTO);
+  }
+
+  @RequestMapping("/delete")
+  public ResponseObject deleteCertificate(@RequestParam int id){
+    return studentService.deleteCertificate(id);
   }
 }

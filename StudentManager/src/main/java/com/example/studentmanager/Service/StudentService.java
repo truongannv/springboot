@@ -1,11 +1,15 @@
 package com.example.studentmanager.Service;
 
+import com.example.studentmanager.Model.Certificate;
+import com.example.studentmanager.Model.DTO.RequestDTO.CertificateRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentDetailRequestDTO;
 import com.example.studentmanager.Model.DTO.RequestDTO.StudentRequestDTO;
+import com.example.studentmanager.Model.DTO.ResponseDTO.CertificateResponseDTO;
 import com.example.studentmanager.Model.DTO.ResponseDTO.StudentResponseDTO;
 import com.example.studentmanager.Model.ResponseObject;
 import com.example.studentmanager.Model.Student;
 import com.example.studentmanager.Model.StudentDetail;
+import com.example.studentmanager.Repository.CertificateRepository;
 import com.example.studentmanager.Repository.StudentDetailRepository;
 import com.example.studentmanager.Repository.StudentRepository;
 import org.modelmapper.ModelMapper;
@@ -26,6 +30,9 @@ public class StudentService implements IStudentService {
 
   @Autowired
   private StudentRepository studentRepository;
+
+  @Autowired
+  private CertificateRepository certificateRepository;
 
   @Autowired
   private ModelMapper mapper;
@@ -140,6 +147,57 @@ public class StudentService implements IStudentService {
     }else{
       studentDetailRepository.delete(studentDetail);
       return new ResponseObject(200,"Xóa thành công",studentDetail);
+    }
+  }
+
+  @Override
+  public ResponseObject addCertificate(CertificateRequestDTO certificateRequestDTO) {
+    Certificate certificate = mapper.map(certificateRequestDTO, Certificate.class);
+    certificateRepository.save(certificate);
+    return new ResponseObject(200,"Thêm thành công",certificateRequestDTO);
+  }
+
+  @Override
+  public ResponseObject listAllCertificate(){
+    try{
+      List<Certificate> certificates = certificateRepository.findAll();
+      if(certificates.isEmpty()){
+        return new ResponseObject(200,"Danh sách rỗng",certificates);
+      }else{
+        List<CertificateResponseDTO> certificateResponseDTOS = new ArrayList<>();
+        for(Certificate certificate : certificates){
+          CertificateResponseDTO certificateResponseDTO = mapper.map(certificate, CertificateResponseDTO.class);
+          certificateResponseDTOS.add(certificateResponseDTO);
+        }
+        return new ResponseObject(200,"Thành công",certificateResponseDTOS);
+      }
+    }catch (Exception e){
+      return new ResponseObject(500,"Có lỗi xảy ra",null);
+    }
+  }
+
+  @Override
+  public ResponseObject updateCertificate(int id,CertificateRequestDTO certificateRequestDTO){
+    Certificate certificate = mapper.map(certificateRequestDTO,Certificate.class);
+    Certificate certificate1 = certificateRepository.findById(id).orElse(null);
+    if(certificate1==null){
+      return new ResponseObject(400,"Không tồn tại chứng chỉ",null);
+    }else{
+      certificate1.setId(certificate.getId());
+      certificate1.setDate_graded(certificate.getDate_graded());
+      certificate1.setCertificate_name(certificate.getCertificate_name());
+      return new ResponseObject(200,"Thành công",certificate);
+    }
+  }
+
+  @Override
+  public ResponseObject deleteCertificate(int id){
+    Certificate certificate = certificateRepository.findById(id).orElse(null);
+    if(certificate==null){
+      return new ResponseObject(400,"Không tìm thấy chứng chỉ",null);
+    }else{
+      certificateRepository.delete(certificate);
+      return new ResponseObject(200,"Xóa thành công",null);
     }
   }
 }
